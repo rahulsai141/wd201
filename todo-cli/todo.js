@@ -12,7 +12,6 @@ const todoList = () => {
   };
   const markAsComplete = index => {
     all[index].completed = true;
-    console.log(all);
   };
 
   const overdue = () => {
@@ -23,13 +22,13 @@ const todoList = () => {
 
   const dueToday = () => {
     return all.filter(todo => {
-      return comparedate(todo.dueToday) === 0;
+      return comparedate(todo.dueDate) === 0;
     });
   };
 
   const dueLater = () => {
     return all.filter(todo => {
-      return comparedate(todo.dueLater) > 0;
+      return comparedate(todo.dueDate) > 0;
     });
   };
 
@@ -45,11 +44,10 @@ const todoList = () => {
   // };
 
   const toDisplayableList = list => {
-    list
+    return list
       .map(todo => {
         const box = todo.completed ? '[x]' : '[]';
-        const displayDate =
-          comparedate(todo.dueToday) === 0 ? '' : todo.dueToday;
+        const displayDate = comparedate(todo.dueDate) === 0 ? '' : todo.dueDate;
         return `${box} ${todo.title} ${displayDate}`;
       })
       .join('\n');
