@@ -1,46 +1,5 @@
-const compareoverdue = (date1, date2) => {
-  const [year1, month1, day1] = date1.split('-').map(Number);
-  const [year2, month2, day2] = date2.split('-').map(Number);
-  if (year1 < year2) {
-    return true;
-  }
-  if (year1 == year2) {
-    if (month1 < month2) {
-      return true;
-    }
-    if (month1 == month2) {
-      if (day1 < day2) {
-        return true;
-      }
-    }
-  }
-  return false;
-};
-const compareduetoday = (date1, date2) => {
-  const [year1, month1, day1] = date1.split('-').map(Number);
-  const [year2, month2, day2] = date2.split('-').map(Number);
-  if (year1 == year2 && month1 == month2 && day1 == day2) {
-    return true;
-  }
-  return false;
-};
-const compareduelater = (date1, date2) => {
-  const [year1, month1, day1] = date1.split('-').map(Number);
-  const [year2, month2, day2] = date2.split('-').map(Number);
-  if (year1 > year2) {
-    return true;
-  }
-  if (year1 == year2) {
-    if (month1 > month2) {
-      return true;
-    }
-    if (month1 == month2) {
-      if (day1 > day2) {
-        return true;
-      }
-    }
-  }
-  return false;
+const comparedate = date => {
+  new Date(date) - new Date(formattedDate(new Date()));
 };
 
 // const compare=()=>{
@@ -56,61 +15,33 @@ const todoList = () => {
     console.log(all);
   };
 
-  const overdue = () => {
-    let i = 0;
-    const due = [];
-    console.log(due);
-    while (i < all.length) {
-      if (compareoverdue(all[i].dueDate, today) && all[i].completed == false) {
-        due.push(all[i].title);
-      }
-      i++;
-    }
-    return due;
-
-    // Write the date check condition here and return the array
-    // of overdue items accordingly.
+  const overdue = todo => {
+    all.filter(todo => {
+      comparedate(todo.dueDate) < 0 && !todo.completed;
+    });
   };
 
-  const dueToday = () => {
-    let i = 0;
-    const nodue = [];
-    console.log(nodue);
-    while (i < all.length) {
-      if (compareduetoday(all[i].dueDate, today)) {
-        nodue.push(all[i].title);
-      }
-      i++;
-    }
-    return nodue;
-    // Write the date check condition here and return the array
-    // of todo items that are due today accordingly.
+  const dueToday = todo => {
+    all.filter(todo => {
+      comparedate(todo.dueToday) === 0;
+    });
   };
 
   const dueLater = () => {
-    let i = 0;
-    const later = [];
-    console.log(later);
-    while (i < all.length) {
-      if (compareduelater(all[i].dueDate, today) && all[i].completed == false) {
-        later.push(all[i].title);
-      }
-      i++;
-    }
-    return later;
-
-    // Write the date check condition here and return the array
-    // of todo items that are due later accordingly.
+    all.filter(todo => {
+      comparedate(todo.dueLater) > 0;
+    });
   };
 
   const toDisplayableList = list => {
-    let i = 0;
-    while (i < list.length) {
-      console.log(list[i]);
-      i++;
-    }
-    // Format the To-Do list here, and return the output string
-    // as per the format given above.
+    list
+      .map(todo => {
+        const box = todo.completed ? '[x]' : '[]';
+        const displayDate =
+          comparedate(todo.dueToday) === 0 ? '' : todo.dueToday;
+        return `${box} ${todo.title} ${displayDate}`;
+      })
+      .join('\n');
   };
 
   return {
