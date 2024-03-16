@@ -1,5 +1,5 @@
 const comparedate = date => {
-  new Date(date) - new Date(formattedDate(new Date()));
+  return new Date(date) - new Date(formattedDate(new Date()));
 };
 
 // const compare=()=>{
@@ -15,23 +15,34 @@ const todoList = () => {
     console.log(all);
   };
 
-  const overdue = todo => {
-    all.filter(todo => {
-      comparedate(todo.dueDate) < 0 && !todo.completed;
+  const overdue = () => {
+    return all.filter(todo => {
+      return comparedate(todo.dueDate) < 0 && !todo.completed;
     });
   };
 
-  const dueToday = todo => {
-    all.filter(todo => {
-      comparedate(todo.dueToday) === 0;
+  const dueToday = () => {
+    return all.filter(todo => {
+      return comparedate(todo.dueToday) === 0;
     });
   };
 
   const dueLater = () => {
-    all.filter(todo => {
-      comparedate(todo.dueLater) > 0;
+    return all.filter(todo => {
+      return comparedate(todo.dueLater) > 0;
     });
   };
+
+  // const toDisplayableList = list => {
+  //   list
+  //     .map(todo => {
+  //       const box = todo.completed ? '[x]' : '[]';
+  //       const displayDate =
+  //         comparedate(todo.dueToday) === 0 ? '' : todo.dueToday;
+  //       return `${box} ${todo.title} ${displayDate}`;
+  //     })
+  //     .join('\n');
+  // };
 
   const toDisplayableList = list => {
     list
