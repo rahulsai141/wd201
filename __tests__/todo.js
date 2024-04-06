@@ -3,13 +3,13 @@ const todoList = require('../todo');
 const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
 
 describe('TodoList Test Suite', () => {
-  // beforeAll(() => {
-  //   add({
-  //     title: 'Test todo',
-  //     completed: false,
-  //     dueDate: new Date().toLocaleDateString('en-CA'),
-  //   });
-  // });
+  beforeAll(() => {
+    add({
+      title: 'Test todo',
+      completed: false,
+      dueDate: new Date().toLocaleDateString('en-CA'),
+    });
+  });
   test('Should add new todo', () => {
     const todoItemsCount = all.length;
     add({
@@ -30,7 +30,9 @@ describe('TodoList Test Suite', () => {
     add({
       title: 'Overdue todo',
       completed: false,
-      dueDate: '2024-03-31',
+      dueDate: formattedDate(
+        new Date(new Date().setDate(dateToday.getDate() - 1))
+      ),
     });
     const overDueItems = overdue();
     expect(overDueItems.length).toBe(1);
@@ -41,7 +43,7 @@ describe('TodoList Test Suite', () => {
     add({
       title: 'Due today todo',
       completed: false,
-      dueDate: '2024-04-04',
+      dueDate: formattedDate(dateToday),
     });
 
     const dueTodayItems = dueToday();
@@ -53,7 +55,9 @@ describe('TodoList Test Suite', () => {
     add({
       title: 'Due Later',
       completed: false,
-      dueDate: '2024-04-06',
+      dueDate: formattedDate(
+        new Date(new Date().setDate(dateToday.getDate() + 1))
+      ),
     });
     const dueLaterItems = dueLater();
     expect(dueLaterItems.length).toBe(1);

@@ -1,0 +1,16 @@
+{
+  "name": "wd201",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "prepare": "husky install"
+  },
+  "author": "Rahul Sai",
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "jest": "^29.7.0"
+  }
+}
